@@ -35,5 +35,8 @@ public static class AdditionalCloudBuild
         Debug.Log("ACB.PreExport");
 
         File.Delete(Application.dataPath + "/../../dlc/ab");
+        Directory.Delete(Application.dataPath + "/../../z_built_abs", recursive: true);
+        Directory.Delete(Application.streamingAssetsPath, recursive: true);
+        File.Delete(Application.streamingAssetsPath + ".meta");
     }
 }
