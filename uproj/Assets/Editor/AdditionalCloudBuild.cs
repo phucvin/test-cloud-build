@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using Monday.Editor;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,6 +9,16 @@ public static class AdditionalCloudBuild
     public static void PreExport()
     {
         Debug.Log("ACB.PreExport");
+
+        MAssetBundleMenu.BuildAssetBundles(Application.dataPath + "/../../z_built_abs", BuildTarget.Android);
+        string absFolder = Path.Combine(Application.streamingAssetsPath, "dlc/abs/");
+        new DirectoryInfo(absFolder).Create();
+        foreach (string child in Directory.GetFiles(Application.dataPath + "/../../z_built_abs"))
+        {
+            string fileName = Path.GetFileName(child);
+            if (child.EndsWith(".manifest") || fileName == "z_built_abs") continue;
+            File.Copy(child, Path.Combine(absFolder, fileName));
+        }
 
         File.WriteAllText(Application.dataPath + "/../../dlc/ab", "AB");
 
